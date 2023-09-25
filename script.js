@@ -5,50 +5,57 @@
 let canvas = document.querySelector('canvas');
 let ctx = canvas.getContext('2d');
 
-ctx.stroke(); 
-ctx.beginPath();
-ctx.moveTo(150,100);
-ctx.arc(150, 100, 25, 150, 180, 0.3*Math.PI);
-ctx.fill();
-ctx.arc(150, 100, 25, 0, 2*Math.PI);
-ctx.lineWidth = 3;
+let x = 10;
+let y = 10;
+let pressed = false;
+let arcSize = 20;
+let color = document.querySelector('#color');
+setInterval(() => {
+    // ctz.reset();
+    if(pressed){
+        ctx.fillStyle = color.value;
+        ctx.beginPath();
+        ctx.arc(x, y, arcSize, 0, 2*Math.PI);
+        ctx.fill();
+    }
+   
+}, 16);
 
+// canvas.addEventListener('keydown', event => {
+//     console.log(event);
+//     if(event.code =='KeyW') {
+//         y-=5;
+//     }
+//     if(event.code =='KeyS') {
+//         y+=5;
+//     }
+//     if(event.code =='KeyD') {
+//         x+=5;
+//     }
+//     if(event.code =='KeyA') {
+//         x-=5;
+//     }
+// } );
 
-// ctx.stroke(); 
-// ctx.beginPath();
-// ctx.moveTo(150,100);
-// ctx.lineTo(150,100);
-// ctx.arc(150, 100, 25, 0, 0.3*Math.PI);
-// ctx.fill();
-// ctx.arc(150, 100, 25, 0, 2*Math.PI);
-// ctx.lineWidth = 3;
-// ctx.stroke();
+canvas.addEventListener('mousemove', event => {
+    console.log(event);
+    x = event.clientX - canvas.offsetLeft;
+    y = event.clientY-canvas.offsetTop;
+} );
 
-ctx.fillStyle = '#0000FF'; //eesti lipp
-ctx.fillRect(10,10,100,30);
-ctx.fillStyle = '#000000';
-ctx.fillRect(10,40,100,30);
-ctx.fillStyle = 'FFFFFF';
-ctx.strokeStyle = 'black';
-var fillRect = false;
-ctx.rect(10, 70, 100, 30);
-if (fillRect) {
-  ctx.fill();
-}
-ctx.stroke();
- //võtsin selle koodi siit: https://stackoverflow.com/questions/38173871/html5-canvas-how-to-border-a-fillrect
+canvas.addEventListener('mousedown', event => {
+    pressed = true;
+} );
 
-ctx.beginPath(); //täht
-ctx.moveTo(192,0);  //1
-ctx.lineTo(214,68); //3
-ctx.lineTo(156,25); //5
-ctx.lineTo(228,26); //2
-ctx.lineTo(170,68); //4
-ctx.lineTo(192,0);  //1*
+canvas.addEventListener('mouseup', event => {
+    pressed = false;
+} );
 
-
-
-
-ctx.lineTo(192,0);
-ctx.closePath();
-ctx.stroke();
+let size = document.querySelector('#size');
+let sizeValue = document-querySelector('#sizeValue');
+sizeValue.innerHTML = size.value;
+arcSize = size.value;
+size.addEventListener('input', ()=> {
+    sizeValue.innerHTML = size.value;
+    arcSize = size.value;
+} );
